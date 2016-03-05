@@ -6,23 +6,37 @@ void connectWiFi() {
   wifiMulti.addAP(ssid2, password2);
 //  wifiMulti.addAP(ssid3, password3);
 
-  Serial.print("Connecting WiFi...");
+  Serial.println("Connecting WiFi...");
   
   while (wifiMulti.run() != WL_CONNECTED) {
     delay(1000);
-  Serial.print("Connecting...\n");
+  Serial.println("Connecting...");
   }
 
   digitalWrite ( ledWiFi, 1 );
-  Serial.println ( "" );
-  Serial.print ( "WiFi Connected" );
+  Serial.println( "WiFi Connected" );
   getWiFiAddress();
 }
 
 char getWiFiAddress(void) {
   // Print the IP address out to the serial connection
-  Serial.print ( "\n\nIP address: " );
-  Serial.println ( WiFi.localIP() );
+//  Serial.print ( "\n\nIP address: " );
+//  Serial.println ( WiFi.localIP() );
+
+  // print the SSID of the network you're attached to:
+  Serial.print("SSID: ");
+  Serial.println(WiFi.SSID());
+
+  // print your WiFi shield's IP address:
+  IPAddress ip = WiFi.localIP();
+  Serial.print("IP Address: ");
+  Serial.println(ip);
+
+  // print the received signal strength:
+  long rssi = WiFi.RSSI();
+  Serial.print("signal strength (RSSI):");
+  Serial.print(rssi);
+  Serial.println(" dBm");
 
   return WiFi.localIP();
 }
