@@ -23,6 +23,10 @@ const char *dnsName = "esp8266-01"; // DNS Name
 //float currentHumidity = 0.000; // variable to store current humidity
 
 // Set WiFi constants
+const char* ssid1     = "SSID_1";
+const char* password1 = "PASS_1";
+const char* ssid2     = "SSID_2";
+const char* password2 = "PASS_2";
 //const char* ssid3     = "SSID_3";
 //const char* password3 = "PASS_3";
 
