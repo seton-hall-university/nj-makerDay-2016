@@ -18,24 +18,19 @@ ESP8266WiFiMulti wifiMulti; // Create an ESP8266 Multi WiFi class
 WiFiClient client; // Create an ESP8266 WiFiClient class.
 WiFiClientSecure sslclient;
 
-// Definitions
-#define hdc_sda 14 // SDA port for the HDC1000
-#define hdc_scl 2 // SCL port for the HDC1000
-#define ledWiFi 16 // LEDs are going to be used.
-#define dnsName "esp8266-01" // DNS Name
+// Variable Definitions
+const int hdc_sda = 14; // SDA port for the HDC1000
+const int hdc_scl = 2; // SCL port for the HDC1000
+const int ledWiFi = 16; // LEDs are going to be used.
+const char *dnsName = "esp8266-01"; // DNS Name
 
 // Set WiFi constants
-#define ssid1 "SSID_1"
-#define password1 "PASS_1"
-#define ssid2 "SSID_2"
-#define password2 "PASS_2"
-// #define ssid3 "SSID_3"
-// #define password3 "PASS_3"
-
-// Variables
-bool debug = 0; // Debug mode allows printing to the serial port.
-//float currentTemp = 0.000; // variable to store current temp
-//float currentHumidity = 0.000; // variable to store current humidity
+//const char* ssid1     = "SSID_1";
+//const char* password1 = "PASS_1";
+//const char* ssid2     = "SSID_2";
+//const char* password2 = "PASS_2";
+//const char* ssid3     = "SSID_3";
+//const char* password3 = "PASS_3";
 
 // Functions
 void setupDNS(void);
