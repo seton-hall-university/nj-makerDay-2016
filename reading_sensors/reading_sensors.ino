@@ -1,8 +1,10 @@
 // Libraries
 #include "Arduino.h"
+#include <SPI.h>
 #include <ESP8266WiFi.h>
 #include <ESP8266WiFiMulti.h>
 #include <WiFiClient.h>
+#include <WiFiClientSecure.h>
 #include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
 #include "Adafruit_HDC1000.h"
@@ -12,6 +14,7 @@ Adafruit_HDC1000 hdc = Adafruit_HDC1000(); // Create a class for the HDC Sensor
 ESP8266WebServer server ( 80 ); // Create an ESP8266 Server class
 ESP8266WiFiMulti wifiMulti; // Create an ESP8266 Multi WiFi class
 WiFiClient client; // Create an ESP8266 WiFiClient class.
+WiFiClientSecure sslclient;
 
 // Program Variables
 bool debug = 0; // Debug mode allows printing to the serial port.
@@ -34,6 +37,7 @@ const char* password2 = "PASS_2";
 void setupDNS(void);
 void connectWiFi(void);
 char getWiFiAddress(void);
+void sendWiFiAddress(void);
 void handleRoot();
 void handleSensors();
 void handleNotFound();
@@ -58,11 +62,14 @@ void setup ( void ) {
 
   // Setup mDNS
   setupDNS();
+
+  // Send the WiFi address out.
+  sendWiFiAddress();
   
-  Serial.println("Setting up HDC100x...");
+  Serial.println("\nSetting up HDC100x...");
   Wire.begin(hdc_sda, hdc_scl);
   if (!hdc.begin()) {
-    Serial.println("Couldn't find sensor!");
+    Serial.println("\nCouldn't find sensor!");
     while (1);
   }
   
@@ -78,7 +85,7 @@ void setup ( void ) {
 	} );
 	server.onNotFound ( handleNotFound );
 	server.begin();
-	Serial.println ( "HTTP server started" );
+	Serial.println ( "\nHTTP server started" );
  
 //  digitalWrite ( ledWiFi, 0 );
 }
