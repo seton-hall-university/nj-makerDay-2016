@@ -10,7 +10,7 @@
 #include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
 #include "Adafruit_HDC1000.h"
-#include <Wire.h>
+//#include <Wire.h>
 
 Adafruit_HDC1000 hdc = Adafruit_HDC1000(); // Create a class for the HDC Sensor
 ESP8266WebServer server ( 80 ); // Create an ESP8266 Server class
