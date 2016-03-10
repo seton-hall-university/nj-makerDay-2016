@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>JSON Retrieve Test </title>
+    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <meta http-equiv='refresh' content='5'/>
+</head>
+<body>
+  <h1>here's the stuff!</h1>
+  <section id="temp" class="content">
+    <div id="celsius">
+      <h3></h3>
+    </div>
+    <div id="fahrenheit">
+      <h3></h3>
+    </div>
+    <div id="kelvin">
+      <h3></h3>
+    </div>
+  </section>
+  <section id="hum">
+    <div></div>
+  </section>
+    <script>
+    $( document ).ready(function() {
+        console.log( "document loaded" );
+
+        // Get Temperatures
+        $.getJSON( "http://10.189.56.57/temperature", function( data ) {
+          var items = [];
+
+          console.log(data);
+
+
+          $.each( data.temperature, function( key, val ) {
+            items.push( "<li id='" + key + "'>" + val + "&nbsp;" + key + "</li>" );
+          });
+
+          $( "<ul/>", {
+            "class": "my-new-list",
+            html: items.join( "" )
+          }).appendTo( "#temp" );
+        });
+
+        // Get Humidity
+        $.getJSON( "http://10.189.56.57/humidity", function( data ) {
+          var items = [];
+
+          console.log(data);
+
+          $.each( data.humidity, function( key, val ) {
+            items.push( "<li id='" + key + "'>" + val + "&nbsp;" + key + "</li>" );
+          });
+
+          $( "<ul/>", {
+            "class": "my-new-list",
+            html: items.join( "" )
+          }).appendTo( "#hum" );
+        });
+    });
+
+    $( window ).load(function() {
+        console.log( "window loaded" );
+    });
+    </script>
+</body>
+</html>
+
+
+AT+CWLAP

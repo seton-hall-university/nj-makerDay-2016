@@ -1,7 +1,7 @@
 // Libraries
 #include "Arduino.h"
-//#include <ArduinoJson.h>
-//#include "FS.h"
+#include <ArduinoJson.h>
+#include "FS.h"
 //#include <SPI.h>
 #include <ESP8266WiFi.h>
 #include <ESP8266WiFiMulti.h>
@@ -49,13 +49,14 @@ float getTempCelsius(void);
 float getTempFahrenheit(void);
 float getTempKelvin(void);
 float getHumidityRH(void);
+bool loadIndex(void);
 
 // Sketch Code
 void setup ( void ) {
-	pinMode ( ledWiFi, OUTPUT );
-//  digitalWrite ( ledWiFi, 1 );
+  pinMode ( ledWiFi, OUTPUT );
+  //  digitalWrite ( ledWiFi, 1 );
   Serial.begin ( 115200 );
-  
+
   // Connect to Wifi
   connectWiFi();
 
@@ -65,49 +66,49 @@ void setup ( void ) {
   // Send the WiFi address out.
   // NOTE: This isn't sending the IP, just a <blank>
   // sendWiFiAddress();
-  
+
   Serial.println("\nSetting up HDC100x...");
   Wire.begin(hdc_sda, hdc_scl);
   if (!hdc.begin()) {
     Serial.println("\nCouldn't find sensor!");
     while (1);
   }
-  
-	server.on ( "/", handleRoot );
+
+  server.on ( "/", handleRoot );
   server.on ( "/sensors", handleSensors );
   server.on ( "/temperature", handleTemperature );
   server.on ( "/temperature/celsius", handleTemperatureC );
   server.on ( "/temperature/fahrenheit", handleTemperatureF );
   server.on ( "/temperature/kelvin", handleTemperatureK );
   server.on ( "/humidity", handleHumidity );
-	server.on ( "/test", []() {
-		server.send ( 200, "text/plain", "<p>this works as well</p>" );
-	} );
-	server.onNotFound ( handleNotFound );
-	server.begin();
-	Serial.println ( "\nHTTP server started" );
- 
-//  digitalWrite ( ledWiFi, 0 );
+  server.on ( "/test", []() {
+    server.send ( 200, "text/plain", "<p>this works as well</p>" );
+  } );
+  server.onNotFound ( handleNotFound );
+  server.begin();
+  Serial.println ( "\nHTTP server started" );
+
+  //  digitalWrite ( ledWiFi, 0 );
 }
 
 void loop ( void ) {
-//  digitalWrite ( ledWiFi, 0 );
+  //  digitalWrite ( ledWiFi, 0 );
   server.handleClient();
 
-//  
-//  getWiFiAddress();
-//  
-//  Serial.print("Temp: "); 
-//  Serial.print(getTempCelsius());
-//  Serial.print("C / ");
-//  Serial.print(getTempFahrenheit());
-//  Serial.print("F"); 
-//  Serial.print("\tHum: "); 
-//  Serial.println(getHumidityRH());
-//
-////  digitalWrite ( ledWiFi, 1 );
-////  delay(180000); // 3 minutes
-////  delay(30000); // 30 seconds
-//  delay(500); // .5 seconds
+  //
+  //  getWiFiAddress();
+  //
+  //  Serial.print("Temp: ");
+  //  Serial.print(getTempCelsius());
+  //  Serial.print("C / ");
+  //  Serial.print(getTempFahrenheit());
+  //  Serial.print("F");
+  //  Serial.print("\tHum: ");
+  //  Serial.println(getHumidityRH());
+  //
+  ////  digitalWrite ( ledWiFi, 1 );
+  ////  delay(180000); // 3 minutes
+  ////  delay(30000); // 30 seconds
+  //  delay(500); // .5 seconds
 }
 
