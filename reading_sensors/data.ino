@@ -17,7 +17,7 @@ bool checkMount() {
 }
 
 bool loadIndex() {
-  checkMount;
+  checkMount();
   File indexFile = SPIFFS.open("index.html", "r");
   if (!indexFile) {
     Serial.println("Failed to open index file");

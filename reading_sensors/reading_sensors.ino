@@ -50,6 +50,7 @@ float getTempFahrenheit(void);
 float getTempKelvin(void);
 float getHumidityRH(void);
 bool loadIndex(void);
+bool checkMount(void);
 
 // Sketch Code
 void setup ( void ) {
