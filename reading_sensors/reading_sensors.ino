@@ -75,6 +75,7 @@ void setup ( void ) {
   }
 
   server.on ( "/", handleRoot );
+  server.on ( "/file", loadIndex );
   server.on ( "/sensors", handleSensors );
   server.on ( "/temperature", handleTemperature );
   server.on ( "/temperature/celsius", handleTemperatureC );
