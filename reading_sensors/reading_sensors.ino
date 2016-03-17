@@ -2,11 +2,11 @@
 #include "Arduino.h"
 #include <ArduinoJson.h>
 #include "FS.h"
-//#include <SPI.h>
+#include <SPI.h>
 #include <ESP8266WiFi.h>
 #include <ESP8266WiFiMulti.h>
 #include <WiFiClient.h>
-//#include <WiFiClientSecure.h>
+#include <WiFiClientSecure.h>
 #include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
 #include "Adafruit_HDC1000.h"
@@ -57,6 +57,9 @@ void setup ( void ) {
   pinMode ( ledWiFi, OUTPUT );
   //  digitalWrite ( ledWiFi, 1 );
   Serial.begin ( 115200 );
+
+  // Check File Mounts
+  checkMount();
 
   // Connect to Wifi
   connectWiFi();
