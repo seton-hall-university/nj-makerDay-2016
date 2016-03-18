@@ -2,7 +2,7 @@
 <html>
 <head>
   <title>JSON Retrieve Test </title>
-    <script src="https://code.jquery.com/jquery-1.9.1.min.js"></script>
+    <script src="/jquery-1.9.1.min.js"></script>
     <meta http-equiv='refresh' content='5'/>
 </head>
 <body>
@@ -26,7 +26,7 @@
         console.log( "document loaded" );
 
         // Get Temperatures
-        $.getJSON( "http://10.189.56.57/temperature", function( data ) {
+        $.getJSON( "/temperature", function( data ) {
           var items = [];
 
           console.log(data);
@@ -43,7 +43,7 @@
         });
 
         // Get Humidity
-        $.getJSON( "http://10.189.56.57/humidity", function( data ) {
+        $.getJSON( "/humidity", function( data ) {
           var items = [];
 
           console.log(data);
@@ -65,6 +65,3 @@
     </script>
 </body>
 </html>
-
-
-AT+CWLAP
