@@ -5,12 +5,10 @@ void connectWiFi() {
   wifiMulti.addAP(ssid1, password1);        //if you have less SSID, delete the others
   wifiMulti.addAP(ssid2, password2);
   wifiMulti.addAP(ssid3, password3);
-//  WiFi.begin(ssid3, password3);
 
   Serial.println("Connecting WiFi...");
 
   while (wifiMulti.run() != WL_CONNECTED) {
-//  while (WiFi.status() != WL_CONNECTED) {
     delay(1000);
     Serial.println("Connecting...");
   }
