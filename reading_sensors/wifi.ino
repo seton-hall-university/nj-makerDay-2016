@@ -8,14 +8,28 @@ void connectWiFi() {
 
   Serial.println("Connecting WiFi...");
 
-  while (wifiMulti.run() != WL_CONNECTED) {
-    delay(1000);
-    Serial.println("Connecting...");
-  }
+//  while (wifiMulti.run() != WL_CONNECTED) {
+    for(int x = 0; x < 6; x++) {
+      wifiMulti.run();
+      Serial.println(WiFi.status());
+      
+      if (WiFi.status() != WL_CONNECTED) {
+        delay(1000);
+        Serial.println("Connecting...");
+      } else {
+        digitalWrite ( ledWiFi, 1 );
+        Serial.println( "\nWiFi Connected" );
+        getWiFiAddress(); 
+      }
 
-  digitalWrite ( ledWiFi, 1 );
-  Serial.println( "\nWiFi Connected" );
-  getWiFiAddress();
+      if ( x == 5) {
+        createAccessPoint();
+        break;
+      }
+      
+      Serial.println(x);
+    }
+//  }
 }
 
 char getWiFiAddress(void) {
@@ -100,4 +114,22 @@ char getWiFiAddress(void) {
 //    Serial.println("\nConnection failed");
 //  }
 //}
+
+void createAccessPoint() {
+  // Reference: ESP8266 WiFiAccessPoint Example.
+  Serial.println();
+  Serial.println("Configuring Access Point...");
+//  Serial.println("webdev-esp8266-" + chipID);
+  
+  WiFi.softAP("WebDev-ESP8266-003");
+//  WiFi.softAP("webdev-esp8266-" + chipID);
+  
+  IPAddress myIP = WiFi.softAPIP();
+  Serial.print("AP IP address: ");
+  Serial.println(myIP);
+  
+  Serial.println();
+  Serial.print("Access Point configured.");
+  digitalWrite ( ledWiFi, 1 );
+}
 

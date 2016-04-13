@@ -22,7 +22,8 @@ WiFiClientSecure sslclient;
 const int hdc_sda = 14; // SDA port for the HDC1000
 const int hdc_scl = 2; // SCL port for the HDC1000
 const int ledWiFi = 16; // LEDs are going to be used.
-const char *dnsName = "esp8266-01"; // DNS Name
+const char chipID = ESP.getChipId(); // The ESP's Chip ID
+const char *dnsName = "webdev-esp8266-" + chipID; // DNS Name
 
 // Set WiFi constants
 //const char* ssid1     = "SSID_1";
@@ -51,12 +52,17 @@ float getTempKelvin(void);
 float getHumidityRH(void);
 bool loadIndex(void);
 bool checkMount(void);
+void createAccessPoint(void);
 
 // Sketch Code
 void setup ( void ) {
   pinMode ( ledWiFi, OUTPUT );
   //  digitalWrite ( ledWiFi, 1 );
   Serial.begin ( 115200 );
+
+  Serial.print("\nChip ID = ");
+  Serial.print(ESP.getChipId());
+  Serial.println("");
 
   // Check File Mounts
   checkMount();
@@ -65,7 +71,7 @@ void setup ( void ) {
   connectWiFi();
 
   // Setup mDNS
-  setupDNS();
+//  setupDNS();
 
   // Send the WiFi address out.
   // NOTE: This isn't sending the IP, just a <blank>

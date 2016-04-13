@@ -4,25 +4,28 @@
 #include "Arduino.h"
 
 // Mount the file system
-bool gotMounted = SPIFFS.begin();
-
 bool checkMount() {
-  if (gotMounted) {
-    Serial.println("We've got files!");
-    return true;
-  } else {
-    Serial.println("We don't got files!");
+  delay(1000);
+  Serial.println("Mounting FS...");
+
+  if (!SPIFFS.begin()) {
+    Serial.println("Failed to mount file system");
     return false;
+//  } else {
+//    Serial.println("We got files!");
+//    return;
   }
 }
 
+// Load the index HTML file
 bool loadIndex() {
-  checkMount();
-  File indexFile = SPIFFS.open("index.html", "r");
+  // checkMount();
+  File indexFile = SPIFFS.open("/data/index.html", "r");
   if (!indexFile) {
     Serial.println("Failed to open index file");
     return false;
   } else {
-    Serial.println(indexFile);
+    Serial.print(indexFile);
+    return indexFile;
   }
 }
