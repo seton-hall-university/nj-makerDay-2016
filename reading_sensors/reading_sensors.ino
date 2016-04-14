@@ -51,6 +51,7 @@ float getTempFahrenheit(void);
 float getTempKelvin(void);
 float getHumidityRH(void);
 bool loadIndex(void);
+void loadStatus(void);
 bool checkMount(void);
 void createAccessPoint(void);
 
@@ -86,6 +87,7 @@ void setup ( void ) {
 
   server.on ( "/", handleRoot );
   server.on ( "/file", loadIndex );
+  server.on ( "/status", loadStatus );
   server.on ( "/sensors", handleSensors );
   server.on ( "/temperature", handleTemperature );
   server.on ( "/temperature/celsius", handleTemperatureC );
