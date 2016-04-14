@@ -9,21 +9,23 @@ void connectWiFi() {
   Serial.println("Connecting WiFi...");
 
 //  while (wifiMulti.run() != WL_CONNECTED) {
-    for(int x = 0; x < 6; x++) {
+    for(int x = 0; x < 10; x++) {
       wifiMulti.run();
-      Serial.println(WiFi.status());
+//      Serial.println(WiFi.status());
       
       if (WiFi.status() != WL_CONNECTED) {
         delay(1000);
         Serial.println("Connecting...");
+  
+        // If we don't connect after x tries, create our own AP.
+        if ( x == 9) {
+          createAccessPoint();
+          break;
+        }
       } else {
         digitalWrite ( ledWiFi, 1 );
         Serial.println( "\nWiFi Connected" );
-        getWiFiAddress(); 
-      }
-
-      if ( x == 5) {
-        createAccessPoint();
+        getWiFiAddress();
         break;
       }
       
@@ -129,7 +131,7 @@ void createAccessPoint() {
   Serial.println(myIP);
   
   Serial.println();
-  Serial.print("Access Point configured.");
   digitalWrite ( ledWiFi, 1 );
+  Serial.print("Access Point configured.");
 }
 
