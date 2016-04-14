@@ -18,6 +18,8 @@ ESP8266WiFiMulti wifiMulti; // Create an ESP8266 Multi WiFi class
 WiFiClient client; // Create an ESP8266 WiFiClient class.
 WiFiClientSecure sslclient;
 
+#define DBG_OUTPUT_PORT Serial
+
 // Variable Definitions
 const int hdc_sda = 14; // SDA port for the HDC1000
 const int hdc_scl = 2; // SCL port for the HDC1000
@@ -52,6 +54,7 @@ float getTempKelvin(void);
 float getHumidityRH(void);
 bool loadIndex(void);
 void loadStatus(void);
+bool handleFileRead(String path);
 bool checkMount(void);
 void createAccessPoint(void);
 

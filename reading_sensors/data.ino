@@ -4,20 +4,6 @@
 // Libraries
 #include "Arduino.h"
 
-// Mount the file system
-bool checkMount() {
-  delay(1000);
-  Serial.println("Mounting FS...");
-
-  if (!SPIFFS.begin()) {
-    Serial.println("Failed to mount file system");
-    return false;
-  } else {
-    Serial.println("We got files!");
-    return true;
-  }
-}
-
 //format bytes
 String formatBytes(size_t bytes){
   if (bytes < 1024){
@@ -28,6 +14,30 @@ String formatBytes(size_t bytes){
     return String(bytes/1024.0/1024.0)+"MB";
   } else {
     return String(bytes/1024.0/1024.0/1024.0)+"GB";
+  }
+}
+
+// Mount the file system
+bool checkMount() {
+  delay(1000);
+  Serial.println("Mounting FS...");
+
+  if (!SPIFFS.begin()) {
+    Serial.println("Failed to mount file system");
+    return false;
+  } else {
+    Serial.println("We got files!");
+    {
+      Dir dir = SPIFFS.openDir("/");
+      while (dir.next()) {    
+        String fileName = dir.fileName();
+        size_t fileSize = dir.fileSize();
+        Serial.printf("FS File: %s, size: %s\n", fileName.c_str(), formatBytes(fileSize).c_str());
+      }
+      Serial.printf("\n");
+    }
+    
+    return true;
   }
 }
 
@@ -46,6 +56,22 @@ String getContentType(String filename){
   else if(filename.endsWith(".zip")) return "application/x-zip";
   else if(filename.endsWith(".gz")) return "application/x-gzip";
   return "text/plain";
+}
+
+bool handleFileRead(String path){
+  DBG_OUTPUT_PORT.println("handleFileRead: " + path);
+  if(path.endsWith("/")) path += "index.html";
+  String contentType = getContentType(path);
+  String pathWithGz = path + ".gz";
+  if(SPIFFS.exists(pathWithGz) || SPIFFS.exists(path)){
+    if(SPIFFS.exists(pathWithGz))
+      path += ".gz";
+    File file = SPIFFS.open(path, "r");
+    size_t sent = server.streamFile(file, contentType);
+    file.close();
+    return true;
+  }
+  return false;
 }
 
 //get heap status, analog input value and all GPIO statuses in one json call
