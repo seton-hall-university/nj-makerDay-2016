@@ -16,38 +16,39 @@ float getTempKelvin(void) {
 }
 
 void handleTemperature() {
-  String out = "";
-  out += "{\"temperature\":{\"celsius\":";
-  out += getTempCelsius();
-  out += ",\"fahrenheit\":";
-  out += getTempFahrenheit();
-  out += ",\"kelvin\":";
-  out += getTempKelvin();
-  out += "}}";
-  server.send ( 200, "application/json", out );
+  String json = "";
+  json += "{\"temperature\":{\"celsius\":";
+  json += getTempCelsius();
+  json += ",\"fahrenheit\":";
+  json += getTempFahrenheit();
+  json += ",\"kelvin\":";
+  json += getTempKelvin();
+  json += "}}";
+  server.send ( 200, "application/json", json );
+  json = String();
 }
 
 void handleTemperatureC() {
-  String out = "";
-  out += "{\"temperature\":{\"celsius\":";
-  out += getTempCelsius();
-  out += "}}";
-  server.send ( 200, "application/json", out );
+  String json = "";
+  json += "{\"temperature\":{\"celsius\":";
+  json += getTempCelsius();
+  json += "}}";
+  server.send ( 200, "application/json", json );
 }
 
 void handleTemperatureF() {
-  String out = "";
-  out += "{\"temperature\":{\"fahrenheit\":";
-  out += getTempFahrenheit();
-  out += "}}";
-  server.send ( 200, "application/json", out );
+  String json = "";
+  json += "{\"temperature\":{\"fahrenheit\":";
+  json += getTempFahrenheit();
+  json += "}}";
+  server.send ( 200, "application/json", json );
 }
 
 void handleTemperatureK() {
-  String out = "";
-  out += "{\"temperature\":{\"kelvin\":";
-  out += getTempKelvin();
-  out += "}}";
-  server.send ( 200, "application/json", out );
+  String json = "";
+  json += "{\"temperature\":{\"kelvin\":";
+  json += getTempKelvin();
+  json += "}}";
+  server.send ( 200, "application/json", json );
 }
 

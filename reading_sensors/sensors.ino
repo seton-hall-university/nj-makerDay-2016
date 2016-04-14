@@ -3,18 +3,19 @@
 
 
 void handleSensors() {
-  String out = "";
-  out += "{\"sensors\":";
-  out += "{\"humidity\":{\"relative\":";
-  out += getHumidityRH();
-  out += "},";
-  out += "{\"temperature\":{\"celsius\":";
-  out += getTempCelsius();
-  out += ",\"fahrenheit\":";
-  out += getTempFahrenheit();
-  out += ",\"kelvin\":";
-  out += getTempKelvin();
-  out += "}}";
-  out += "}";
-  server.send ( 200, "application/json", out );
+  String json = "";
+  json += "{\"sensors\":";
+  json += "{\"humidity\":{\"relative\":";
+  json += getHumidityRH();
+  json += "},";
+  json += "{\"temperature\":{\"celsius\":";
+  json += getTempCelsius();
+  json += ",\"fahrenheit\":";
+  json += getTempFahrenheit();
+  json += ",\"kelvin\":";
+  json += getTempKelvin();
+  json += "}}";
+  json += "}";
+  server.send ( 200, "application/json", json );
+  json = String();
 }
