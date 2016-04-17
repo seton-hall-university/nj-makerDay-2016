@@ -55,6 +55,7 @@ float getHumidityRH(void);
 bool loadIndex(void);
 void loadStatus(void);
 bool handleFileRead(String path);
+void handleFileList(void);
 bool checkMount(void);
 void createAccessPoint(void);
 
@@ -88,16 +89,17 @@ void setup ( void ) {
     while (1);
   }
 
-  server.on ( "/", handleRoot );
-  server.on ( "/file", loadIndex );
-  server.on ( "/status", loadStatus );
-  server.on ( "/sensors", handleSensors );
-  server.on ( "/temperature", handleTemperature );
-  server.on ( "/temperature/celsius", handleTemperatureC );
-  server.on ( "/temperature/fahrenheit", handleTemperatureF );
-  server.on ( "/temperature/kelvin", handleTemperatureK );
-  server.on ( "/humidity", handleHumidity );
-  server.on ( "/test", []() {
+  server.on ( "/", HTTP_GET, handleRoot );
+  server.on ( "/file", HTTP_GET, loadIndex );
+  server.on ( "/status", HTTP_GET, loadStatus );
+  server.on("/list", HTTP_GET, handleFileList);
+  server.on ( "/sensors", HTTP_GET, handleSensors );
+  server.on ( "/temperature", HTTP_GET, handleTemperature );
+  server.on ( "/temperature/celsius", HTTP_GET, handleTemperatureC );
+  server.on ( "/temperature/fahrenheit", HTTP_GET, handleTemperatureF );
+  server.on ( "/temperature/kelvin", HTTP_GET, handleTemperatureK );
+  server.on ( "/humidity", HTTP_GET, handleHumidity );
+  server.on ( "/test", HTTP_GET, []() {
     server.send ( 200, "text/plain", "<p>this works as well</p>" );
   } );
   server.onNotFound ( handleNotFound );

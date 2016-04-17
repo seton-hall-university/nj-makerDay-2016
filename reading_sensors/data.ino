@@ -74,6 +74,31 @@ bool handleFileRead(String path){
   return false;
 }
 
+void handleFileList() {
+  if(!server.hasArg("dir")) {server.send(500, "text/plain", "BAD ARGS"); return;}
+  
+  String path = server.arg("dir");
+  DBG_OUTPUT_PORT.println("handleFileList: " + path);
+  Dir dir = SPIFFS.openDir(path);
+  path = String();
+
+  String output = "[";
+  while(dir.next()){
+    File entry = dir.openFile("r");
+    if (output != "[") output += ',';
+    bool isDir = false;
+    output += "{\"type\":\"";
+    output += (isDir)?"dir":"file";
+    output += "\",\"name\":\"";
+    output += String(entry.name()).substring(1);
+    output += "\"}";
+    entry.close();
+  }
+  
+  output += "]";
+  server.send(200, "text/json", output);
+}
+
 //get heap status, analog input value and all GPIO statuses in one json call
 void loadStatus() {
   String json = "{";
@@ -89,11 +114,15 @@ void loadStatus() {
 bool loadIndex() {
   // checkMount();
   File indexFile = SPIFFS.open("/index.html", "r");
+  String contentType = getContentType("/index.html");
+  
   if (!indexFile) {
     Serial.println("Failed to open index file");
     return false;
   } else {
-    Serial.print(indexFile);
+//    Serial.print(indexFile);
+    size_t sent = server.streamFile(indexFile, contentType);
+    indexFile.close();
     return indexFile;
   }
 }
